@@ -57,7 +57,7 @@ impl<'a> Generator<'a> {
     }
 
     fn sententia_slice(&mut self) -> &[u8] {
-        let index = self.rng.gen_range(1..=*SENTENTIA_TOTAL);
+        let index = self.rng.random_range(1..=*SENTENTIA_TOTAL);
         let loc = SENTENTIAE.get(&index).unwrap();
 
         &DICTIONARY[loc.start..=loc.end]
@@ -67,7 +67,7 @@ impl<'a> Generator<'a> {
         let mut buffer: Vec<u8> = vec![];
 
         for i in 0..amount {
-            let len = self.rng.gen_range(3..=5);
+            let len = self.rng.random_range(3..=5);
 
             for j in 0..len {
                 buffer.extend_from_slice(self.sententia_slice());
@@ -102,7 +102,7 @@ struct Cli {
 fn main() {
     let cli = Cli::parse();
 
-    let mut rng = thread_rng();
+    let mut rng = rand::rng();
     let mut clipboard = Clipboard::new().unwrap();
     let mut generator = Generator::new(&mut rng);
 
